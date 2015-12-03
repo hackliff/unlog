@@ -13,7 +13,7 @@ PACKAGES         := $(shell go list ./... | grep -v /vendor/)
 GIT_COMMIT       := $(shell git rev-parse HEAD)
 GIT_USER         := $(shell git config --get user.name)
 # alternative : git describe --always --tags
-VERSION          := "0.2.0"
+VERSION          := "0.2.2"
 GO_PROJECTS      := "/go/src/github.com/$(GIT_USER)"
 GO_VERSION       := $(shell go version)
 # ldflags does't support spaces in variables

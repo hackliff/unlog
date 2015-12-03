@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"regexp"
 
 	"github.com/gosuri/uilive"
 )
@@ -46,7 +47,8 @@ func matched(logData *StructuredLog, filters map[string]string, strict bool) boo
 		if strict && !ok {
 			return false
 		}
-		if v != pvalue.(string) {
+		match, _ := regexp.MatchString(v, pvalue.(string))
+		if !match {
 			return false
 		}
 	}
@@ -72,18 +74,14 @@ func loop() int {
 		}
 
 		counter++
-		if matched(logData, opts.Filters, opts.Strict) {
-			wasMatched = true
-			writer.Stop()
+		if wasMatched {
+			wasMatched = false
 			display(os.Stdout, *logData, opts.Unfold)
 		} else {
-			if wasMatched {
-				display(os.Stdout, *logData, opts.Unfold)
-				wasMatched = false
-			} else {
-				writer.Start()
-				display(writer, *logData, opts.Unfold)
-			}
+			display(writer, *logData, opts.Unfold)
+		}
+		if matched(logData, opts.Filters, opts.Strict) {
+			wasMatched = true
 		}
 	}
 }
