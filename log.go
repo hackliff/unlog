@@ -15,6 +15,7 @@ func parseLog(input []byte) (*StructuredLog, error) {
 		return nil, err
 	}
 
+	// TODO dehardcode those fields
 	namespace := data["logger"].(string)
 	delete(data, "logger")
 	msg := data["msg"].(string)

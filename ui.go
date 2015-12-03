@@ -33,9 +33,10 @@ func displayMap(writer io.Writer, props map[string]interface{}) {
 
 // TODO support for smart colors (depending on types, log levels, namespaces, ...)
 func display(writer io.Writer, logData StructuredLog, unfold bool) {
-	fmt.Fprintf(writer, "\n\t%s\t( %d )\tprocessing logs ...\n\n", spinner.Next(), counter)
-
-	fmt.Fprintf(writer, "\t%-30s | %s\n\n", loggerUI(logData.Logger), msgUI(logData.Msg))
+	fmt.Fprintf(writer, "\n\t%s [%-4d]\t%-30s | %s\n\n", spinner.Next(),
+																											 counter,
+																											 loggerUI(logData.Logger),
+																											 msgUI(logData.Msg))
 	if unfold {
 		displayMap(writer, logData.Properties)
 	}
